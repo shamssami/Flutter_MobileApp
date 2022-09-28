@@ -7,7 +7,19 @@ import 'package:label_marker/label_marker.dart';
 import 'package:geolocator/geolocator.dart';
 
 class Navigation extends StatefulWidget {
-  const Navigation({Key? key}) : super(key: key);
+  final String name;
+  final double binLat;
+  final double binLon;
+
+  final double distance;
+
+  const Navigation(
+      {Key? key,
+      required this.name,
+      required this.binLat,
+      required this.binLon,
+      required this.distance})
+      : super(key: key);
 
   @override
   State<Navigation> createState() => NavigationState();
@@ -17,21 +29,28 @@ class NavigationState extends State<Navigation> {
   List<double> lati_ATM = [];
   List<double> longi_ATM = [];
   Set<Marker> myMarkers = {};
-  List<LatLng> pointsList = [LatLng(32.226067078723155, 35.256443599712355)];
-
+  List<LatLng> pointsList = [];
+  LatLng _center = LatLng(31.7054, 35.2024);
   @override
   void initState() {
     super.initState();
-
+    pointsList.add(LatLng(widget.binLat, widget.binLon));
     print(
         'state@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@###############################');
     getATMsData();
   }
 
   getATMsData() async {
+    // List<LatLng> pointsList = [LatLng(widget.binLat, widget.binLon)];
+
     print('=======================inside navigation classsssssss');
     Position place = await _determinePosition();
-    pointsList.add(LatLng(place.latitude, place.longitude));
+
+    LatLng currentLocation = LatLng(place.latitude, place.longitude);
+    pointsList.add(currentLocation);
+    setState(() {
+      _center = currentLocation;
+    });
     print('nav-position---------------------------${place}');
 
     print(
@@ -43,26 +62,25 @@ class NavigationState extends State<Navigation> {
         const ImageConfiguration(size: Size(35, 40)), "assets/images/but.png");
 
     Marker sourceMarker = Marker(
-        markerId: MarkerId('sou'),
-        infoWindow: InfoWindow(title: 'source'),
+        markerId: MarkerId('Location'),
+        infoWindow: InfoWindow(title: 'Source'),
         icon: branchbitmap,
-        position: pointsList[0]);
-
-    Marker distMarker = Marker(
-        markerId: MarkerId('dis'),
-        infoWindow: InfoWindow(title: 'distination'),
-        icon: atmbitmap,
         position: pointsList[1]);
 
+    Marker distMarker = Marker(
+        markerId: MarkerId('distination'),
+        infoWindow: InfoWindow(title: '${widget.name}'),
+        icon: atmbitmap,
+        position: pointsList[0]);
+
     setState(() {
-      myMarkers.add(sourceMarker);
       myMarkers.add(distMarker);
+
+      myMarkers.add(sourceMarker);
     });
   }
 
   late GoogleMapController mapController;
-
-  final LatLng _center = LatLng(31.897832390252894, 35.20152145891561);
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -70,6 +88,7 @@ class NavigationState extends State<Navigation> {
 
   @override
   Widget build(BuildContext context) {
+    final String x = widget.name;
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -106,10 +125,10 @@ class NavigationState extends State<Navigation> {
                 markers: myMarkers,
                 polylines: {
                   Polyline(
-                      width: 5,
+                      jointType: JointType.round,
+                      width: 4,
                       polylineId: PolylineId('polyLine'),
                       color: Colors.black,
-                      endCap: Cap.roundCap,
                       points: pointsList)
                 },
                 initialCameraPosition: CameraPosition(
@@ -130,12 +149,12 @@ class NavigationState extends State<Navigation> {
                     child: ListTile(
                       // tileColor: Color.fromARGB(255, 13, 134, 17),
                       title: Text(
-                        'Al Maysoun',
+                        '${widget.name}',
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                       subtitle: Text(
-                        '100 KM, Nearest Branch',
+                        '${widget.distance} KM away',
                         style: TextStyle(color: Colors.white),
                       ),
                       trailing: Icon(
@@ -174,7 +193,6 @@ class NavigationState extends State<Navigation> {
     }
 
     Position position = await Geolocator.getCurrentPosition();
-
     return position;
   }
 }

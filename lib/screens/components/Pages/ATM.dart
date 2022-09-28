@@ -316,21 +316,34 @@ class _ATMPageState extends State<ATMPage> {
                                                           FontWeight.w400),
                                                 )),
                                             onPressed: () async {
+                                              var atmPosition = items[index]
+                                                  .atmBin
+                                                  .split(',');
+                                              double currentLat =
+                                                  double.parse(atmPosition[0]);
+                                              double currentLon =
+                                                  double.parse(atmPosition[1]);
                                               print(
-                                                  'minNum======================${minNumber}');
+                                                  '::::::::Navigate:::::::::::::::::::::');
                                               print(
-                                                  '3 FIRST DIS IN LIST======================${duplicateItems[0].atmDistance}');
-                                              Position currentPosition =
-                                                  await _determinePosition();
+                                                  '------currentLat----- ${currentLat}');
+                                              print(
+                                                  '------currentLong----- ${currentLon}');
+
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
                                                         // Navigation(p: currentPosition)
-                                                        const Navigation()),
+                                                        Navigation(
+                                                          distance: items[index]
+                                                              .atmDistance,
+                                                          name: items[index]
+                                                              .atmName,
+                                                          binLat: currentLat,
+                                                          binLon: currentLon,
+                                                        )),
                                               );
-                                              print(
-                                                  'p1-position---------------------------${currentPosition}');
                                             },
                                           ),
                                           SizedBox(
