@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'dart:math';
 import 'package:geolocator/geolocator.dart';
+import 'package:task/screens/components/Pages/NavigateMap.dart';
 
 class BranchPage extends StatefulWidget {
   const BranchPage({Key? key}) : super(key: key);
@@ -185,10 +186,10 @@ class _BranchPageState extends State<BranchPage> {
                                     boxShadow: [
                                       BoxShadow(
                                         color:
-                                            Color.fromARGB(255, 224, 225, 224)
-                                                .withOpacity(0.4),
+                                            Color.fromARGB(255, 204, 212, 204)
+                                                .withOpacity(0.6),
                                         spreadRadius: 3,
-                                        blurRadius: 3,
+                                        blurRadius: 2,
                                         offset: Offset(
                                             0, 3), // changes position of shadow
                                       ),
@@ -294,7 +295,36 @@ class _BranchPageState extends State<BranchPage> {
                                                 fontSize: deviceWidth * 0.03,
                                                 fontWeight: FontWeight.w400),
                                           ),
-                                          onPressed: () {},
+                                          onPressed: () async {
+                                            var branchPosition = items[index]
+                                                .branchBin
+                                                .split(',');
+                                            double currentLat =
+                                                double.parse(branchPosition[0]);
+                                            double currentLon =
+                                                double.parse(branchPosition[1]);
+                                            print(
+                                                '::::::::Navigate:::::::::::::::::::::');
+                                            print(
+                                                '------currentLat----- ${currentLat}');
+                                            print(
+                                                '------currentLong----- ${currentLon}');
+
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      // Navigation(p: currentPosition)
+                                                      Navigation(
+                                                        distance: items[index]
+                                                            .branchDistance,
+                                                        name: items[index]
+                                                            .branchName,
+                                                        binLat: currentLat,
+                                                        binLon: currentLon,
+                                                      )),
+                                            );
+                                          },
                                         ),
                                       ),
                                     ),
