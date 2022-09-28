@@ -7,23 +7,13 @@ import 'package:label_marker/label_marker.dart';
 import 'package:geolocator/geolocator.dart';
 
 class Navigation extends StatefulWidget {
-  // final Position p;
-  // const Navigation({Key? key, required this.p}) : super(key: key);
-
   const Navigation({Key? key}) : super(key: key);
 
-  // @override
-  // State<Navigation> createState() => NavigationState(this.p);
   @override
   State<Navigation> createState() => NavigationState();
 }
 
 class NavigationState extends State<Navigation> {
-  // final Position pos;
-
-  // NavigationState(this.pos);
-
-  // late BitmapDescriptor mapMarker;
   List<double> lati_ATM = [];
   List<double> longi_ATM = [];
   Set<Marker> myMarkers = {};
@@ -32,17 +22,12 @@ class NavigationState extends State<Navigation> {
   @override
   void initState() {
     super.initState();
-    // LatLng currentLocation = LatLng(this.pos.latitude, this.pos.longitude);
-    // pointsList.add(currentLocation);
+
     print(
         'state@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@###############################');
     getATMsData();
-    // setCustomeMarker();
   }
 
-//////////////////////////////////////////////////////////////////
-
-/////////////////////////////////////////////////////////////////
   getATMsData() async {
     print('=======================inside navigation classsssssss');
     Position place = await _determinePosition();
@@ -75,7 +60,6 @@ class NavigationState extends State<Navigation> {
     });
   }
 
-  /////////////////////////////////////////////
   late GoogleMapController mapController;
 
   final LatLng _center = LatLng(31.897832390252894, 35.20152145891561);
@@ -84,7 +68,6 @@ class NavigationState extends State<Navigation> {
     mapController = controller;
   }
 
-  //////////////////////////////////////////////////////////////
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,11 +81,7 @@ class NavigationState extends State<Navigation> {
           actions: [
             IconButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //       builder: (context) => const Navigation()),
-                  // );
+                  Navigator.pop(context);
                 },
                 icon: Icon(
                   Icons.window_outlined,
@@ -139,15 +118,6 @@ class NavigationState extends State<Navigation> {
                 ),
               ),
             ),
-            Positioned(
-                top: 70,
-                left: 30,
-                // right: 30,
-                child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.change_circle),
-                  color: Color.fromARGB(255, 0, 137, 80),
-                )),
             Positioned(
                 bottom: 50,
                 left: 30,

@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:task/screens/components/Pages/ATM.dart';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'dart:math';
 import 'package:geolocator/geolocator.dart';
 
-class Page5 extends StatefulWidget {
-  const Page5({Key? key}) : super(key: key);
+class BranchPage extends StatefulWidget {
+  const BranchPage({Key? key}) : super(key: key);
 
   @override
-  State<Page5> createState() => _Page5State();
+  State<BranchPage> createState() => _BranchPageState();
 }
 
-class _Page5State extends State<Page5> {
+class _BranchPageState extends State<BranchPage> {
   TextEditingController editingController = TextEditingController();
   bool isLoading = true;
 
@@ -117,14 +116,16 @@ class _Page5State extends State<Page5> {
 
   @override
   Widget build(BuildContext context) {
+    double deviceWidth = MediaQuery.of(context).size.width;
+    double deviceHight = MediaQuery.of(context).size.height;
     return Scaffold(
         backgroundColor: Colors.white,
         extendBody: true,
         body: Container(
-            margin: EdgeInsets.all(20),
+            margin: EdgeInsets.all(deviceWidth * 0.05),
             child: Column(children: <Widget>[
               Container(
-                  padding: EdgeInsets.all(10),
+                  // padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -198,25 +199,31 @@ class _Page5State extends State<Page5> {
                                       '${items[index].branchName}',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
+                                        fontSize: 0.033 * deviceWidth,
                                       ),
                                       softWrap: true,
                                       maxLines: 1,
                                     ),
                                     ///////////////////////////////////////////////////
-                                    subtitle: minNumber ==
-                                            items[index].branchDistance
-                                        ? Text(
-                                            '${items[index].branchDistance} KM, Nearest Branch',
-                                            style: TextStyle(color: Colors.red),
-                                          )
-                                        : Text(
-                                            '${items[index].branchDistance} KM away',
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              color: Color.fromARGB(
-                                                  255, 172, 172, 172),
-                                            ),
-                                          ),
+                                    subtitle:
+                                        minNumber == items[index].branchDistance
+                                            ? Text(
+                                                '${items[index].branchDistance} KM, Nearest Branch',
+                                                style: TextStyle(
+                                                  color: Colors.red,
+                                                  fontSize: // fontSize:
+                                                      0.03 * deviceWidth,
+                                                ),
+                                              )
+                                            : Text(
+                                                '${items[index].branchDistance} KM away',
+                                                style: TextStyle(
+                                                  fontSize: // fontSize:
+                                                      0.03 * deviceWidth,
+                                                  color: Color.fromARGB(
+                                                      255, 172, 172, 172),
+                                                ),
+                                              ),
                                     trailing: Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
@@ -235,6 +242,8 @@ class _Page5State extends State<Page5> {
                                           style: TextStyle(
                                             color:
                                                 Color.fromARGB(255, 0, 137, 80),
+                                            fontSize: // fontSize:
+                                                0.03 * deviceWidth,
                                           ),
                                         ), // <-- Text
                                       ],
@@ -276,13 +285,13 @@ class _Page5State extends State<Page5> {
                                           icon: Icon(
                                             Icons.near_me,
                                             color: Colors.white,
-                                            // size: 10,
+                                            size: deviceWidth * 0.03,
                                           ),
                                           label: Text(
                                             'Navigation',
                                             style: TextStyle(
                                                 color: Colors.white,
-                                                fontSize: 16,
+                                                fontSize: deviceWidth * 0.03,
                                                 fontWeight: FontWeight.w400),
                                           ),
                                           onPressed: () {},
@@ -320,14 +329,14 @@ class _Page5State extends State<Page5> {
                                             Icons.call,
                                             color:
                                                 Color.fromARGB(255, 0, 137, 80),
-                                            // size: 10,
+                                            size: deviceWidth * 0.03,
                                           ),
                                           label: Text(
                                             'Call',
                                             style: TextStyle(
                                                 color: Color.fromARGB(
                                                     255, 0, 137, 80),
-                                                fontSize: 16,
+                                                fontSize: deviceWidth * 0.03,
                                                 fontWeight: FontWeight.w400),
                                           ),
                                           onPressed: () {},

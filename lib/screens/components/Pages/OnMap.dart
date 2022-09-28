@@ -14,11 +14,9 @@ class onMap extends StatefulWidget {
 }
 
 class onMapState extends State<onMap> {
-  // late BitmapDescriptor mapMarker;
   List<double> lati_ATM = [];
   List<double> longi_ATM = [];
   Set<Marker> myMarkers = {};
-  // late BitmapDescriptor atm_black;
   Set<Marker> ListMarkers1 = {};
   Set<Marker> ListMarkers2 = {};
 
@@ -26,28 +24,27 @@ class onMapState extends State<onMap> {
   List<double> longi_branch = [];
   Set<Marker> ListMarkers3 = {};
   Widget P = Container();
-
+  Color btnColor = Colors.red;
   @override
   void initState() {
     super.initState();
     print(
         'state@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@###############################');
     getATMsData();
-    // setCustomeMarker();
   }
 
-//////////////////////////////////////////////////////////////////
   _showMarkers() {
     setState(() {
       if (myMarkers == ListMarkers1) {
         myMarkers = ListMarkers2;
+        btnColor = Colors.red;
       } else {
         myMarkers = ListMarkers1;
+        btnColor = Color.fromARGB(255, 0, 137, 80);
       }
     });
   }
 
-/////////////////////////////////////////////////////////////////
   getATMsData() async {
     print(
         'Method startttttttt@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@###############################');
@@ -86,8 +83,7 @@ class onMapState extends State<onMap> {
     }
 
     ///
-    ///
-    ///
+
     print(
         '*********************************************************************');
     print('ATM Length ${atms.length}');
@@ -113,15 +109,13 @@ class onMapState extends State<onMap> {
     Marker _ATMmarker;
     Marker _BranchMarker;
 
-    print('1111111111jjjjjjjjjjjjjj');
-
     for (var item = 0; item < atmMarkers.length; item++) {
       _ATMmarker = Marker(
           markerId: MarkerId('${atmMarkers[item].atmId}'),
           infoWindow: InfoWindow(title: '${atmMarkers[item].atmName}'),
           icon: atmbitmap,
           position: LatLng(lati_ATM[item], longi_ATM[item]));
-      print('${atmMarkers[item].atmName} #############################');
+      print('############ ${atmMarkers[item].atmName} #################');
       setState(() {
         ListMarkers1.add(_ATMmarker);
       });
@@ -134,25 +128,20 @@ class onMapState extends State<onMap> {
           infoWindow: InfoWindow(title: '${branchMarkers[item].branchAddress}'),
           icon: branchbitmap,
           position: LatLng(lati_branch[item], longi_branch[item]));
-      print(
-          '${branchMarkers[item].branchAddress} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
+      // print(
+      //     '${branchMarkers[item].branchAddress} %%%%%%%%%%%%%');
       setState(() {
         ListMarkers2.add(_BranchMarker);
       });
     }
 
-    //////////////////
-    print('####################################');
-
     print(ListMarkers1.length);
-    myMarkers = ListMarkers1;
+    myMarkers = ListMarkers2;
     print(ListMarkers2.length);
 
-    print(
-        'Method Enddddddddddddddd@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@###############################');
+    print('---------------------Data is Loaded-----------------------');
   }
 
-  /////////////////////////////////////////////
   late GoogleMapController mapController;
 
   final LatLng _center = LatLng(31.897832390252894, 35.20152145891561);
@@ -161,7 +150,6 @@ class onMapState extends State<onMap> {
     mapController = controller;
   }
 
-  //////////////////////////////////////////////////////////////
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -174,18 +162,6 @@ class onMapState extends State<onMap> {
             myLocationEnabled: false,
             onMapCreated: _onMapCreated,
             markers: myMarkers,
-            // polylines: {
-            //   const Polyline(
-            //       width: 5,
-            //       polylineId: PolylineId('polyLine'),
-            //       color: Colors.black,
-            //       startCap: Cap.squareCap,
-            //       endCap: Cap.roundCap,
-            //       points: [
-            //         LatLng(31.711866242840067, 35.19599236432871),
-            //         LatLng(31.842906720471834, 35.22999487850363)
-            //       ])
-            // },
             initialCameraPosition: CameraPosition(
               target: _center,
               zoom: 11.0,
@@ -195,36 +171,14 @@ class onMapState extends State<onMap> {
         Positioned(
             top: 8,
             right: 10,
-            // right: 30,
             child: IconButton(
               onPressed: _showMarkers,
               icon: Icon(
                 Icons.change_circle,
-                size: 50,
+                size: 40,
               ),
-              color: Color.fromARGB(255, 0, 137, 80),
+              color: btnColor,
             )),
-        // Positioned(
-        //     bottom: 50,
-        //     left: 30,
-        //     right: 30,
-        //     child: Container(
-        //         decoration: BoxDecoration(
-        //           borderRadius: BorderRadius.all(Radius.circular(12)),
-        //           color: Color.fromARGB(255, 19, 143, 23),
-        //         ),
-        //         child: ListTile(
-        //           // tileColor: Color.fromARGB(255, 13, 134, 17),
-        //           title: Text(
-        //             'Al Maysoun',
-        //             style: TextStyle(
-        //                 color: Colors.white, fontWeight: FontWeight.bold),
-        //           ),
-        //           subtitle: Text(
-        //             '100 KM, Nearest Branch',
-        //             style: TextStyle(color: Colors.white),
-        //           ),
-        //         ))),
       ],
     );
   }

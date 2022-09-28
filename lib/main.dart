@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:task/screens/components/Pages/TabBar.dart';
-import 'package:task/screens/components/locator1.dart';
 
 void main() {
   runApp(const MyApp());

@@ -1,12 +1,8 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:task/screens/components/Pages/NavigateButton.dart';
 import 'package:task/screens/components/Pages/OnMap.dart';
-import 'package:task/screens/components/Pages/ATM_Page1.dart';
+import 'package:task/screens/components/Pages/ATM.dart';
 import 'package:task/screens/components/Pages/Branches.dart';
-import 'package:task/screens/components/Pages/p4.dart';
-import 'package:task/screens/components/Pages/p2.dart';
-import 'package:task/screens/components/Pages/p3.dart';
 
 class TabsScreen extends StatefulWidget {
   const TabsScreen({Key? key}) : super(key: key);
@@ -20,36 +16,29 @@ class _TabsScreenState extends State<TabsScreen> {
   int _page = 0;
 
   int pageIndex = 0;
-  final Page1 p1 = Page1();
-  final Page2 p2 = Page2();
-  final Page3 p3 = Page3();
-  final Page4 p4 = Page4();
-  final Page5 p5 = Page5();
+  // final Page1 p1 = Page1();
+  // final Page5 p5 = Page5();
 
-  Widget _showPage = new Page1();
+  Widget _showPage = new ATMPage();
 
-  Widget _pageSelector(int page) {
-    switch (page) {
-      case 0:
-        return p1;
+  // Widget _pageSelector(int page) {
+  //   switch (page) {
+  //     case 0:
+  //       return p1;
 
-      case 1:
-        return p2;
-      case 2:
-        return p3;
-      case 3:
-        return p4;
-      case 4:
-        return p5;
+  //     case 1:
+  //       return p4;
+  //     case 2:
+  //       return p5;
 
-      default:
-        return new Container(
-          child: new Center(
-            child: Text('No Page Found'),
-          ),
-        );
-    }
-  }
+  //     default:
+  //       return new Container(
+  //         child: new Center(
+  //           child: Text('No Page Found'),
+  //         ),
+  //       );
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -59,9 +48,6 @@ class _TabsScreenState extends State<TabsScreen> {
           extendBody: true,
           backgroundColor: Color.fromARGB(235, 255, 255, 255),
           appBar: AppBar(
-/////////////////////////
-            toolbarHeight: 200,
-/////////////////////////
             leading: IconButton(
                 color: Colors.black,
                 onPressed: () {
@@ -71,10 +57,7 @@ class _TabsScreenState extends State<TabsScreen> {
             actions: [
               IconButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Page3()),
-                    );
+                    // Navigator.pop(context);
                   },
                   icon: Icon(
                     Icons.window_outlined,
@@ -100,11 +83,11 @@ class _TabsScreenState extends State<TabsScreen> {
             ),
           ),
           body: TabBarView(
-            children: [Page1(), Page5(), onMap()],
+            children: [ATMPage(), BranchPage(), onMap()],
           ),
           bottomNavigationBar: CurvedNavigationBar(
-            index: 0,
-            height: 60.0,
+            index: 2,
+            // height: 60.0,
             items: <Widget>[
               Icon(
                 Icons.home,
@@ -132,7 +115,7 @@ class _TabsScreenState extends State<TabsScreen> {
                 color: Color.fromARGB(255, 184, 183, 183),
               ),
             ],
-            color: Color.fromARGB(255, 246, 248, 246),
+            color: Color.fromARGB(255, 250, 250, 250),
             buttonBackgroundColor: Color.fromARGB(255, 0, 137, 80),
             backgroundColor: Colors.transparent,
             animationCurve: Curves.easeInOut,
